@@ -20,54 +20,22 @@
 
 # //////////////////
 
-# # Use Homebrew installed flatc
-# flatc=/opt/homebrew/bin/flatc
+# Use Homebrew installed flatc
+flatc=/opt/homebrew/bin/flatc
 
-# # Check if flatc is available
-# if ! command -v $flatc &> /dev/null
-# then
-#     echo "flatc could not be found at $flatc. Please make sure it is installed."
-#     exit 1
-# fi
-
-# # Display flatc version
-# $flatc --version
-
-# # Clean up previous generated flatbuffers
-# rm -rf ./src/flatbuffers
-
-# # Generate TypeScript code from FlatBuffers schema
-# $flatc --ts -o ./src/flatbuffers ./src/schema.fbs
-
-#!/bin/bash
-
-set -e
-
-# Check for flatc and use system-installed if available, otherwise fall back
-if ! command -v flatc &> /dev/null; then
-  echo "flatc could not be found, attempting to download..."
-  mkdir -p ./node_modules/.bin
-  cd ./node_modules/.bin
-
-  # Update this URL with the correct version as needed
-  curl -LO https://github.com/google/flatbuffers/releases/download/v24.3.25/flatc_darwin_amd64.zip
-
-  # Check if the download was successful
-  if [ ! -f flatc_darwin_amd64.zip ]; then
-    echo "Download failed!"
+# Check if flatc is available
+if ! command -v $flatc &> /dev/null
+then
+    echo "flatc could not be found at $flatc. Please make sure it is installed."
     exit 1
-  fi
-
-  # Unzip the downloaded file
-  unzip -q flatc_darwin_amd64.zip
-
-  # Clean up
-  rm -f flatc_darwin_amd64.zip
-  cd ../..
-else
-  echo "Using existing flatc installation."
 fi
 
-flatc --version
+# Display flatc version
+$flatc --version
+
+# Clean up previous generated flatbuffers
 rm -rf ./src/flatbuffers
-flatc --ts -o ./src/flatbuffers ./src/schema.fbs
+
+# Generate TypeScript code from FlatBuffers schema
+$flatc --ts -o ./src/flatbuffers ./src/schema.fbs
+
