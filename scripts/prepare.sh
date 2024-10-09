@@ -48,15 +48,21 @@ if ! command -v flatc &> /dev/null; then
   echo "flatc could not be found, attempting to download..."
   mkdir -p ./node_modules/.bin
   cd ./node_modules/.bin
-  
-  # Use curl to download flatc
-  curl -LO https://github.com/google/flatbuffers/releases/download/v24.3.25/flatc_linux_amd64.zip
-  
+
+  # Update this URL with the correct version as needed
+  curl -LO https://github.com/google/flatbuffers/releases/download/v24.3.25/flatc_darwin_amd64.zip
+
+  # Check if the download was successful
+  if [ ! -f flatc_darwin_amd64.zip ]; then
+    echo "Download failed!"
+    exit 1
+  fi
+
   # Unzip the downloaded file
-  unzip -q flatc_linux_amd64.zip
-  
+  unzip -q flatc_darwin_amd64.zip
+
   # Clean up
-  rm -f flatc_linux_amd64.zip
+  rm -f flatc_darwin_amd64.zip
   cd ../..
 else
   echo "Using existing flatc installation."
